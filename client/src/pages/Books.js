@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
-
-// import Card from "../components/Card";
+import Card from "../components/Card";
 // import Form from "../components/Form";
-// import Book from "../components/Book";
+import Book from "../components/Book";
 
 class Books extends Component {
   state = {
@@ -100,25 +99,39 @@ class Books extends Component {
             </form>
           </Col>
           <Col size="md-12">
-            <Jumbotron>
-              <h1>Results</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+            <h1>Results</h1>
+            <Card title="Books">
+              {this.state.books.length ? (
+                <List>
+                  {this.state.books.map(book => (
+                    <Book key={book._id}>
+                      {/* <Link to={"/books/" + book._id}>
+                        <strong>
+                          {book.title} by {book.author}
+                        </strong>
+                      </Link>
+                      <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
+                      key={book.id}
+                      title={book.volumeInfo.title}
+                      link={book.volumeInfo.infoLink}
+                      authors={book.volumeInfo.authors.join(", ")}
+                      description={book.volumeInfo.description}
+                      image={book.volumeInfo.imageLinks.thumbnail}
+                      Button={() => (
+                        <button
+                          onClick={() => this.handleSaveBook(book.id)}
+                          className="btn btn-primary ml-2"
+                        >
+                          Save
+                        </button>
+                      )}
+                    </Book>
+                  ))}
+                </List>
+              ) : (
+                  <h3>No Results to Display</h3>
+                )}
+            </Card>
           </Col>
         </Row>
       </Container>
