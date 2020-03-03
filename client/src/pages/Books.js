@@ -7,31 +7,36 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 
+// import Card from "../components/Card";
+// import Form from "../components/Form";
+// import Book from "../components/Book";
+
 class Books extends Component {
   state = {
     books: [],
-    title: "",
-    author: "",
-    synopsis: ""
+    query: ""
   };
 
-  componentDidMount() {
-    this.loadBooks();
-  }
+  // Don't need to do this since we're not initially loading anything
+  // componentDidMount() {
+  //   this.loadBooks();
+  // }
 
   loadBooks = () => {
-    API.getBooks()
+    API.getBooks(this.state.query)
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        // this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ books: res.data })
       )
       .catch(err => console.log(err));
   };
 
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
-  };
+  // Don't need this since we're not deleting anything
+  // deleteBook = id => {
+  //   API.deleteBook(id)
+  //     .then(res => this.loadBooks())
+  //     .catch(err => console.log(err));
+  // };
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -42,55 +47,61 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    }
+    // if (this.state.title && this.state.author) {
+    //   API.saveBook({
+    //     title: this.state.title,
+    //     author: this.state.author,
+    //     synopsis: this.state.synopsis
+    //   })
+    //     .then(res => this.loadBooks())
+    //     .catch(err => console.log(err));
+    // }
+    this.loadBooks();
+  };
+
+  handleSaveBook = id => {
+    const book = this.state.books.find(book => book.id === id);
+
+    API.saveBook({
+      id: book.id,
+      title: book.volumeInfo.title,
+      link: book.volumeInfo.infoLink,
+      authors: book.volumeInfo.authors,
+      description: book.volumeInfo.description,
+      image: book.volumeInfo.imageLinks.thumbnail
+    }).then(() => this.loadBooks());
+
   };
 
   render() {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
+          <Col size="md-12">
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>(React) Google Books Search</h1>
+              <p>Search for and Save Books of Interest</p>
             </Jumbotron>
+          </Col>
+          <Col size="md-12">
             <form>
               <Input
                 value={this.state.title}
                 onChange={this.handleInputChange}
                 name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
+                placeholder="Harry Potter"
               />
               <FormBtn
                 disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Search
               </FormBtn>
             </form>
           </Col>
-          <Col size="md-6 sm-12">
+          <Col size="md-12">
             <Jumbotron>
-              <h1>Books On My List</h1>
+              <h1>Results</h1>
             </Jumbotron>
             {this.state.books.length ? (
               <List>
