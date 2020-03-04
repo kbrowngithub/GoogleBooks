@@ -46,13 +46,16 @@ This is a React App application and was created using create-react-app.
 ---
 
 ## If you want to clone the app down to your local machine:
-1. 
-2. In your terminal, ```cd``` into the project folder and run:
-- ```npm install``` to download all node.js dependencies
+1. In your terminal, 
+    - ```cd``` into the project folder
+
+2. Run:
+    - ```npm install``` to download all node.js dependencies
 
 3. Finally, you can run the application using:
-- ```npm start``` in the terminal to start the node server
-- Navigate to localhost:3000 in your browser.
+    - ```npm start``` in the terminal to start the node server
+
+4. Navigate to localhost:3000 in your browser.
 
 ---
 
