@@ -2,11 +2,11 @@ import React from "react";
 
 function Card({ icon, title, children }) {
     return (
-        <div class="card mt-4">
-            <div class="card-header">
+        <div className="card mt-4">
+            <div className="card-header">
                 {title}
             </div>
-            <div class="card-body">
+            <div className="card-body">
                 {children}
             </div>
         </div>

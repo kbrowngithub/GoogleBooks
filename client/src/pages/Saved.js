@@ -58,10 +58,10 @@ class Saved extends Component {
                       image={book.image}
                       Button={() => (
                         <button
-                          onClick={() => this.handleSaveBook(book.id)}
+                          onClick={() => this.handleBookDelete(book.id)}
                           className="btn btn-primary ml-2"
                         >
-                          Save
+                          Delete
                         </button>
                       )}
                     />

@@ -1,8 +1,13 @@
+const path = require("path");
 const router = require("express").Router();
 const bookRoutes = require("./books");
+const searchRoutes = require("./search");
 
 // Book routes
 router.use("/books", bookRoutes);
+
+// Search Routes
+router.use("/search", searchRoutes);
 
 // For anything else, render the html page
 router.use(function (req, res) {

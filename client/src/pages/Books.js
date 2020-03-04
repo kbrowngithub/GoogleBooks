@@ -9,11 +9,13 @@ import { Input, TextArea, FormBtn } from "../components/Form";
 import Card from "../components/Card";
 // import Form from "../components/Form";
 import Book from "../components/Book";
+import Form from "../components/Form";
 
 class Books extends Component {
   state = {
     books: [],
-    query: ""
+    query: "",
+    message: "Enter a Title"
   };
 
   // Don't need to do this since we're not initially loading anything
@@ -22,12 +24,13 @@ class Books extends Component {
   // }
 
   loadBooks = () => {
+    console.log(`loadBooks(): query = ${this.state.query}`);
     API.getBooks(this.state.query)
-      .then(res =>
+      .then(res => {
         // this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-        this.setState({ books: res.data })
-      )
-      .catch(err => console.log(err));
+        console.log("res = " + JSON.stringify(res))
+        this.setState({ books: res.data })}
+      ).catch(err => console.log(err));
   };
 
   // Don't need this since we're not deleting anything
@@ -46,6 +49,7 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
+    console.log("handleFormSubmit()");
     // if (this.state.title && this.state.author) {
     //   API.saveBook({
     //     title: this.state.title,
@@ -83,20 +87,12 @@ class Books extends Component {
             </Jumbotron>
           </Col>
           <Col size="md-12">
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Harry Potter"
+            {/* <Form btnName="Search" cb={this.handleFormSubmit}>Test Book Search</Form> */}
+            <Form
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                query={this.state.query}
               />
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Search
-              </FormBtn>
-            </form>
           </Col>
           <Col size="md-12">
             <h1>Results</h1>
@@ -104,14 +100,8 @@ class Books extends Component {
               {this.state.books.length ? (
                 <List>
                   {this.state.books.map(book => (
-                    <Book key={book._id}>
-                      {/* <Link to={"/books/" + book._id}>
-                        <strong>
-                          {book.title} by {book.author}
-                        </strong>
-                      </Link>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
-                      key={book.id}
+                    <Book 
+                      key={book._id}
                       title={book.volumeInfo.title}
                       link={book.volumeInfo.infoLink}
                       authors={book.volumeInfo.authors.join(", ")}
@@ -125,11 +115,11 @@ class Books extends Component {
                           Save
                         </button>
                       )}
-                    </Book>
+                    />
                   ))}
                 </List>
               ) : (
-                  <h3>No Results to Display</h3>
+                  <h3>{this.state.message}</h3>
                 )}
             </Card>
           </Col>
