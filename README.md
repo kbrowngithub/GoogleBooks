@@ -4,6 +4,7 @@ Search Google Books [here](https://fierce-badlands-44122.herokuapp.com/)
 
 ## Overview
 React-based Google Books Search app. The application consists of two pages: 
+
     Search - User can search for books via the Google Books API and render them here. 
     User has the option to "View" a book, bringing them to the book on Google Books, or 
     "Save" a book, saving it to the Mongo database.
@@ -38,7 +39,7 @@ This is a React App application and was created using create-react-app.
 3. Both the landing page and the Saved page offer a View button for each displayed book that
     will take the user to the Google Books link for that particualr book and display the
     information about that book.
-    
+
 4. On the Saved page there is a Delete button for each book that will delete the book from
     the MongoDB.
 
